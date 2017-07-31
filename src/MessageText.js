@@ -1,66 +1,54 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React from 'react'
 import {
   Linking,
   StyleSheet,
   Text,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+  View
+} from 'react-native'
 
-import ParsedText from 'react-native-parsed-text';
-import Communications from 'react-native-communications';
-
-const WWW_URL_PATTERN = /^www\./i;
+import ParsedText from 'react-native-parsed-text'
+import Communications from 'react-native-communications'
 
 export default class MessageText extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onUrlPress = this.onUrlPress.bind(this);
-    this.onPhonePress = this.onPhonePress.bind(this);
-    this.onEmailPress = this.onEmailPress.bind(this);
+  constructor (props) {
+    super(props)
+    this.onUrlPress = this.onUrlPress.bind(this)
+    this.onPhonePress = this.onPhonePress.bind(this)
+    this.onEmailPress = this.onEmailPress.bind(this)
   }
 
-  onUrlPress(url) {
-    // When someone sends a message that includes a website address beginning with "www." (omitting the scheme),
-    // react-native-parsed-text recognizes it as a valid url, but Linking fails to open due to the missing scheme.
-    if (WWW_URL_PATTERN.test(url)) {
-      this.onUrlPress(`http://${url}`);
-    } else if (Linking.canOpenURL(url)) {
-      Linking.openURL(url);
-    } else {
-      console.error('No handler for URL:', url);
-    }
+  onUrlPress (url) {
+    Linking.openURL(url)
   }
 
-  onPhonePress(phone) {
+  onPhonePress (phone) {
     const options = [
       'Text',
       'Call',
-      'Cancel',
-    ];
-    const cancelButtonIndex = options.length - 1;
+      'Cancel'
+    ]
+    const cancelButtonIndex = options.length - 1
     this.context.actionSheet().showActionSheetWithOptions({
       options,
-      cancelButtonIndex,
+      cancelButtonIndex
     },
     (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
-          Communications.phonecall(phone, true);
-          break;
+          Communications.phonecall(phone, true)
+          break
         case 1:
-          Communications.text(phone);
-          break;
+          Communications.text(phone)
+          break
       }
-    });
+    })
   }
 
-  onEmailPress(email) {
-    Communications.email(email, null, null, null, null);
+  onEmailPress (email) {
+    Communications.email(email, null, null, null, null)
   }
 
-  render() {
+  render () {
     return (
       <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
         <ParsedText
@@ -68,79 +56,79 @@ export default class MessageText extends React.Component {
           parse={[
             {type: 'url', style: StyleSheet.flatten([styles[this.props.position].link, this.props.linkStyle[this.props.position]]), onPress: this.onUrlPress},
             {type: 'phone', style: StyleSheet.flatten([styles[this.props.position].link, this.props.linkStyle[this.props.position]]), onPress: this.onPhonePress},
-            {type: 'email', style: StyleSheet.flatten([styles[this.props.position].link, this.props.linkStyle[this.props.position]]), onPress: this.onEmailPress},
+            {type: 'email', style: StyleSheet.flatten([styles[this.props.position].link, this.props.linkStyle[this.props.position]]), onPress: this.onEmailPress}
           ]}
         >
-          {this.props.currentMessage.text}
+          {this.props.currentMessage.text.trim()}
         </ParsedText>
       </View>
-    );
+    )
   }
 }
 
 const textStyle = {
-  fontSize: 16,
+  fontSize: 15,
   lineHeight: 20,
-  marginTop: 5,
-  marginBottom: 5,
+  marginTop: 8,
+  marginBottom: 8,
   marginLeft: 10,
-  marginRight: 10,
-};
+  marginRight: 10
+}
 
 const styles = {
   left: StyleSheet.create({
     container: {
     },
     text: {
-      color: 'black',
-      ...textStyle,
+      color: '#212121',
+      ...textStyle
     },
     link: {
-      color: 'black',
-      textDecorationLine: 'underline',
-    },
+      color: '#212121',
+      textDecorationLine: 'underline'
+    }
   }),
   right: StyleSheet.create({
     container: {
     },
     text: {
-      color: 'white',
-      ...textStyle,
+      color: '#212121',
+      ...textStyle
     },
     link: {
-      color: 'white',
-      textDecorationLine: 'underline',
-    },
-  }),
-};
+      color: '#212121',
+      textDecorationLine: 'underline'
+    }
+  })
+}
 
 MessageText.contextTypes = {
-  actionSheet: PropTypes.func,
-};
+  actionSheet: React.PropTypes.func
+}
 
 MessageText.defaultProps = {
   position: 'left',
   currentMessage: {
-    text: '',
+    text: ''
   },
   containerStyle: {},
   textStyle: {},
-  linkStyle: {},
-};
+  linkStyle: {}
+}
 
 MessageText.propTypes = {
-  position: PropTypes.oneOf(['left', 'right']),
-  currentMessage: PropTypes.object,
-  containerStyle: PropTypes.shape({
-    left: ViewPropTypes.style,
-    right: ViewPropTypes.style,
+  position: React.PropTypes.oneOf(['left', 'right']),
+  currentMessage: React.PropTypes.object,
+  containerStyle: React.PropTypes.shape({
+    left: View.propTypes.style,
+    right: View.propTypes.style
   }),
-  textStyle: PropTypes.shape({
+  textStyle: React.PropTypes.shape({
     left: Text.propTypes.style,
-    right: Text.propTypes.style,
+    right: Text.propTypes.style
   }),
-  linkStyle: PropTypes.shape({
+  linkStyle: React.PropTypes.shape({
     left: Text.propTypes.style,
-    right: Text.propTypes.style,
-  }),
-};
+    right: Text.propTypes.style
+  })
+}

@@ -1,29 +1,27 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React from 'react'
 import {
   ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+  View
+} from 'react-native'
 
 export default class LoadEarlier extends React.Component {
-  renderLoading() {
+  renderLoading () {
     if (this.props.isLoadingEarlier === false) {
       return (
         <Text style={[styles.text, this.props.textStyle]}>
           {this.props.label}
         </Text>
-      );
+      )
     }
     return (
       <View>
         <Text style={[styles.text, this.props.textStyle, {
-            opacity: 0,
-          }]}>
+          opacity: 0
+        }]}>
           {this.props.label}
         </Text>
         <ActivityIndicator
@@ -32,25 +30,25 @@ export default class LoadEarlier extends React.Component {
           style={[styles.activityIndicator, this.props.activityIndicatorStyle]}
         />
       </View>
-    );
+    )
   }
-  render() {
+  render () {
     return (
       <TouchableOpacity
         style={[styles.container, this.props.containerStyle]}
         onPress={() => {
           if (this.props.onLoadEarlier) {
-            this.props.onLoadEarlier();
+            this.props.onLoadEarlier()
           }
         }}
         disabled={this.props.isLoadingEarlier === true}
-        accessibilityTraits="button"
+        accessibilityTraits='button'
       >
         <View style={[styles.wrapper, this.props.wrapperStyle]}>
           {this.renderLoading()}
         </View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
@@ -58,7 +56,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   wrapper: {
     alignItems: 'center',
@@ -67,37 +65,37 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 30,
     paddingLeft: 10,
-    paddingRight: 10,
+    paddingRight: 10
   },
   text: {
     backgroundColor: 'transparent',
     color: '#fff',
-    fontSize: 12,
+    fontSize: 12
   },
   activityIndicator: {
     marginTop: Platform.select({
       ios: -14,
-      android: -16,
-    }),
+      android: -16
+    })
   }
-});
+})
 
 LoadEarlier.defaultProps = {
   onLoadEarlier: () => {},
   isLoadingEarlier: false,
-  label: 'Load earlier messages',
+  label: '点击加载历史消息',
   containerStyle: {},
   wrapperStyle: {},
   textStyle: {},
-  activityIndicatorStyle: {},
-};
+  activityIndicatorStyle: {}
+}
 
 LoadEarlier.propTypes = {
-  onLoadEarlier: PropTypes.func,
-  isLoadingEarlier: PropTypes.bool,
-  label: PropTypes.string,
-  containerStyle: ViewPropTypes.style,
-  wrapperStyle: ViewPropTypes.style,
+  onLoadEarlier: React.PropTypes.func,
+  isLoadingEarlier: React.PropTypes.bool,
+  label: React.PropTypes.string,
+  containerStyle: View.propTypes.style,
+  wrapperStyle: View.propTypes.style,
   textStyle: Text.propTypes.style,
-  activityIndicatorStyle: ViewPropTypes.style,
-};
+  activityIndicatorStyle: View.propTypes.style
+}

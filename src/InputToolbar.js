@@ -1,83 +1,85 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+  View
+} from 'react-native'
 
-import Composer from './Composer';
-import Send from './Send';
-import Actions from './Actions';
+import Composer from './Composer'
+import Send from './Send'
+import Actions from './Actions'
 
 export default class InputToolbar extends React.Component {
-  renderActions() {
+  renderActions () {
     if (this.props.renderActions) {
-      return this.props.renderActions(this.props);
+      return this.props.renderActions(this.props)
     } else if (this.props.onPressActionButton) {
-      return <Actions {...this.props} />;
+      return <Actions {...this.props} />
     }
-    return null;
+    return null
   }
 
-  renderSend() {
+  renderSend () {
     if (this.props.renderSend) {
-      return this.props.renderSend(this.props);
+      return this.props.renderSend(this.props)
     }
-    return <Send {...this.props}/>;
+    return <Send {...this.props} />
   }
 
-  renderComposer() {
+  renderComposer () {
     if (this.props.renderComposer) {
-      return this.props.renderComposer(this.props);
+      return this.props.renderComposer(this.props)
     }
 
     return (
       <Composer
         {...this.props}
       />
-    );
+    )
   }
 
-  renderAccessory() {
+  renderAccessory () {
     if (this.props.renderAccessory) {
       return (
         <View style={[styles.accessory, this.props.accessoryStyle]}>
           {this.props.renderAccessory(this.props)}
         </View>
-      );
+      )
     }
-    return null;
+    return null
   }
 
-  render() {
+  render () {
     return (
       <View style={[styles.container, this.props.containerStyle]}>
         <View style={[styles.primary, this.props.primaryStyle]}>
-          {this.renderActions()}
           {this.renderComposer()}
-          {this.renderSend()}
+          {this.renderActions()}
+          {
+            // this.renderSend()
+          }
         </View>
         {this.renderAccessory()}
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#b2b2b2',
-    backgroundColor: '#FFFFFF',
+    flex: 1,
+    borderTopWidth: 0.5,
+    borderTopColor: '#dbdbdb',
+    backgroundColor: '#f5f5f7',
+    padding: 8
   },
   primary: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   accessory: {
-    height: 44,
-  },
-});
+    height: 44
+  }
+})
 
 InputToolbar.defaultProps = {
   renderAccessory: null,
@@ -86,16 +88,16 @@ InputToolbar.defaultProps = {
   renderComposer: null,
   containerStyle: {},
   primaryStyle: {},
-  accessoryStyle: {},
-};
+  accessoryStyle: {}
+}
 
 InputToolbar.propTypes = {
-  renderAccessory: PropTypes.func,
-  renderActions: PropTypes.func,
-  renderSend: PropTypes.func,
-  renderComposer: PropTypes.func,
-  onPressActionButton: PropTypes.func,
-  containerStyle: ViewPropTypes.style,
-  primaryStyle: ViewPropTypes.style,
-  accessoryStyle: ViewPropTypes.style,
-};
+  renderAccessory: React.PropTypes.func,
+  renderActions: React.PropTypes.func,
+  renderSend: React.PropTypes.func,
+  renderComposer: React.PropTypes.func,
+  onPressActionButton: React.PropTypes.func,
+  containerStyle: View.propTypes.style,
+  primaryStyle: View.propTypes.style,
+  accessoryStyle: View.propTypes.style
+}

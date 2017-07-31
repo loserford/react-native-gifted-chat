@@ -1,12 +1,10 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+  View
+} from 'react-native'
 
 export default class Send extends React.Component {
   // shouldComponentUpdate(nextProps, nextState) {
@@ -15,28 +13,28 @@ export default class Send extends React.Component {
   //   }
   //   return false;
   // }
-  render() {
+  render () {
     if (this.props.text.trim().length > 0) {
       return (
         <TouchableOpacity
           style={[styles.container, this.props.containerStyle]}
           onPress={() => {
-            this.props.onSend({text: this.props.text.trim()}, true);
+            this.props.onSend({text: this.props.text.trim()}, true)
           }}
-          accessibilityTraits="button"
+          accessibilityTraits='button'
         >
           <Text style={[styles.text, this.props.textStyle]}>{this.props.label}</Text>
         </TouchableOpacity>
-      );
+      )
     }
-    return <View/>;
+    return <View />
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     height: 44,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   text: {
     color: '#0084ff',
@@ -45,22 +43,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: 12,
     marginLeft: 10,
-    marginRight: 10,
-  },
-});
+    marginRight: 10
+  }
+})
 
 Send.defaultProps = {
   text: '',
   onSend: () => {},
   label: 'Send',
   containerStyle: {},
-  textStyle: {},
-};
+  textStyle: {}
+}
 
 Send.propTypes = {
-  text: PropTypes.string,
-  onSend: PropTypes.func,
-  label: PropTypes.string,
-  containerStyle: ViewPropTypes.style,
-  textStyle: Text.propTypes.style,
-};
+  text: React.PropTypes.string,
+  onSend: React.PropTypes.func,
+  label: React.PropTypes.string,
+  containerStyle: View.propTypes.style,
+  textStyle: Text.propTypes.style
+}
